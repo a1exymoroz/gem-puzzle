@@ -1,0 +1,102 @@
+body.body-modal {
+  overflow: hidden;
+}
+
+.puzzle__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.puzzle__header {
+  display: flex;
+}
+
+.puzzle__button {
+  margin: 5px;
+}
+
+.puzzle__move-time {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.puzzle__main {
+  display: grid;
+  gap: 5px;
+  margin: 5px;
+}
+
+.puzzle__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+}
+
+.puzzle__footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.puzzle__field-size {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.puzzle__other-size {
+  display: flex;
+}
+
+.puzzle__modal-opacity {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.5;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+
+.puzzle__modal {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.puzzle__modal-content {
+  background-color: white;
+  border-radius: 5%;
+  padding: 19px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 25px;
+}
+
+.puzzle__modal-paragraph {
+  margin: 10px 0;
+}
+
+.puzzle__modal_flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.puzzle__modal-table {
+  margin: 10px;
+}
+
+.modal__table-items {
+  padding: 10px;
+  text-align: center;
+}

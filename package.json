@@ -1,0 +1,40 @@
+{
+  "name": "gem-puzzle",
+  "version": "1.0.0",
+  "description": "https://github.com/rolling-scopes-school/tasks/blob/master/tasks/codejam-the-gem-puzzle.md",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --debug src/",
+    "lint:write": "eslint --debug index.js --fix",
+    "prettier": "prettier --write index.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.(js)": [
+      "npm run lint:write",
+      "git add"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a1exymoroz/gem-puzzle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/a1exymoroz/gem-puzzle/issues"
+  },
+  "homepage": "https://github.com/a1exymoroz/gem-puzzle#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.1.0",
+    "prettier": "^2.0.2"
+  }
+}
