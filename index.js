@@ -1,8 +1,8 @@
 class GemPuzzle {
   constructor(rootNode) {
     this.rootNode = rootNode;
-    // TODO: default 4
-    this.boxSize = 3;
+    // this.DragManager = DragManager;
+    this.boxSize = 4;
     this.matrixOfGamingValues = [];
     this.indexOfEmptyBlock = null;
     this.clickableBlocks = {
@@ -36,9 +36,7 @@ class GemPuzzle {
     this.mainNode = document.createElement('main');
     this.wrapperNode.append(this.mainNode);
 
-    // TODO: delete start game
     this.buildFirstPage();
-    // this.startGame();
   }
 
   buildFirstPage() {
@@ -168,18 +166,21 @@ class GemPuzzle {
     // Block puzzles
     this.puzzleNode = document.createElement('div');
     this.puzzleNode.classList.add('puzzle__main');
-    this.puzzleNode.style.gridTemplateColumns = `repeat(${this.boxSize}, 10vw)`;
-    this.puzzleNode.style.gridTemplateRows = `repeat(${this.boxSize}, 10vh)`;
+    this.puzzleNode.style.gridTemplateColumns = `repeat(${this.boxSize}, 100px)`;
+    this.puzzleNode.style.gridTemplateRows = `repeat(${this.boxSize}, 100px)`;
     const size = this.boxSize ** 2;
 
     const fragment = document.createDocumentFragment();
     for (let index = 0; index < size; index += 1) {
       const element = document.createElement('div');
       element.classList.add('puzzle__item');
+      element.style.width = '100px';
+      element.style.height = '100px';
       element.addEventListener('click', (event) => {
         event.stopPropagation();
         this.onClickPuzzleBlock(event.currentTarget);
       });
+      // this.addDrugEvent();
       fragment.append(element);
     }
 
@@ -187,6 +188,18 @@ class GemPuzzle {
 
     this.mainNode.append(this.puzzleNode);
   }
+
+  // addDrugEvent() {
+  //   this.DragManager.onDragCancel = (dragObject) => {
+  //     dragObject.avatar.rollback();
+  //     console.log('onDragCancel');
+  //   };
+
+  //   this.DragManager.onDragEnd = (dragObject, dropElem) => {
+  //     dragObject.elem.style.display = 'none';
+  //     console.log('onDragEnd');
+  //   };
+  // }
 
   plusMove() {
     this.moves += 1;
@@ -261,7 +274,19 @@ class GemPuzzle {
         puzzleBlocks[indexPuzzleBlocks].dataset.matrixIndex = `${matrixIndex}`;
         puzzleBlocks[indexPuzzleBlocks].dataset.arrayIndex = `${arrayIndex}`;
         puzzleBlocks[indexPuzzleBlocks].dataset.value = `${value}`;
-        puzzleBlocks[indexPuzzleBlocks].textContent = value;
+        if (value === 0) {
+          puzzleBlocks[indexPuzzleBlocks].textContent = '';
+          // puzzleBlocks[indexPuzzleBlocks].classList.add('droppable');
+        } else {
+          puzzleBlocks[indexPuzzleBlocks].textContent = value;
+          // puzzleBlocks[indexPuzzleBlocks].classList.remove('droppable');
+        }
+
+        // if (this.clickableBlocks.items.includes(value)) {
+        //   puzzleBlocks[indexPuzzleBlocks].classList.add('draggable');
+        // } else {
+        //   puzzleBlocks[indexPuzzleBlocks].classList.remove('draggable');
+        // }
 
         indexPuzzleBlocks += 1;
       }
@@ -281,7 +306,7 @@ class GemPuzzle {
 
   shuffleArray() {
     const size = this.boxSize ** 2;
-    let array = [];
+    const array = [];
     for (let index = 0; index < size; index += 1) {
       array.push(index);
     }
@@ -291,11 +316,12 @@ class GemPuzzle {
     const firstValue = this.winCombination.shift();
     this.winCombination.push(firstValue);
 
-    // for (let i = array.length - 1; i > 0; i -= 1) {
-    //   const j = Math.floor(Math.random() * (i + 1));
-    //   [array[i], array[j]] = [array[j], array[i]];
-    // }
-    array = [1, 2, 3, 4, 5, 0, 7, 8, 6];
+    for (let i = array.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    // test Win combination
+    // array = [1, 2, 3, 4, 5, 0, 7, 8, 6];
     const matrix = [];
     while (array.length) {
       matrix.push(array.splice(0, this.boxSize));
@@ -304,6 +330,7 @@ class GemPuzzle {
   }
 
   findClickableBlocks() {
+    this.clickableBlocks.items = [];
     this.indexOfEmptyBlock = this.matrixOfGamingValues.reduce(
       (acu, cur, matrixIndex) => {
         cur.forEach((element, arrayIndex) => {
