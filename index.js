@@ -36,8 +36,7 @@ class GemPuzzle {
     this.mainNode = document.createElement('main');
     this.wrapperNode.append(this.mainNode);
 
-    // this.buildFirstPage();
-    this.startGame();
+    this.buildFirstPage();
   }
 
   buildFirstPage() {
