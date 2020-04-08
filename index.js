@@ -1,7 +1,7 @@
 class GemPuzzle {
-  constructor(rootNode) {
+  constructor(rootNode, DragManager) {
     this.rootNode = rootNode;
-    // this.DragManager = DragManager;
+    this.DragManager = DragManager;
     this.boxSize = 4;
     this.matrixOfGamingValues = [];
     this.indexOfEmptyBlock = null;
@@ -36,7 +36,8 @@ class GemPuzzle {
     this.mainNode = document.createElement('main');
     this.wrapperNode.append(this.mainNode);
 
-    this.buildFirstPage();
+    // this.buildFirstPage();
+    this.startGame();
   }
 
   buildFirstPage() {
@@ -172,16 +173,18 @@ class GemPuzzle {
 
     const fragment = document.createDocumentFragment();
     for (let index = 0; index < size; index += 1) {
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('puzzle__item-wrapper');
       const element = document.createElement('div');
       element.classList.add('puzzle__item');
-      element.style.width = '100px';
-      element.style.height = '100px';
+
       element.addEventListener('click', (event) => {
         event.stopPropagation();
         this.onClickPuzzleBlock(event.currentTarget);
       });
-      // this.addDrugEvent();
-      fragment.append(element);
+      wrapper.append(element);
+      this.addDrugEvent();
+      fragment.append(wrapper);
     }
 
     this.puzzleNode.append(fragment);
@@ -189,17 +192,16 @@ class GemPuzzle {
     this.mainNode.append(this.puzzleNode);
   }
 
-  // addDrugEvent() {
-  //   this.DragManager.onDragCancel = (dragObject) => {
-  //     dragObject.avatar.rollback();
-  //     console.log('onDragCancel');
-  //   };
+  addDrugEvent() {
+    this.DragManager.onDragCancel = (dragObject) => {
+      dragObject.avatar.rollback();
+    };
 
-  //   this.DragManager.onDragEnd = (dragObject, dropElem) => {
-  //     dragObject.elem.style.display = 'none';
-  //     console.log('onDragEnd');
-  //   };
-  // }
+    this.DragManager.onDragEnd = (dragObject) => {
+      dragObject.avatar.rollback();
+      this.onClickPuzzleBlock(dragObject.elem);
+    };
+  }
 
   plusMove() {
     this.moves += 1;
@@ -276,17 +278,17 @@ class GemPuzzle {
         puzzleBlocks[indexPuzzleBlocks].dataset.value = `${value}`;
         if (value === 0) {
           puzzleBlocks[indexPuzzleBlocks].textContent = '';
-          // puzzleBlocks[indexPuzzleBlocks].classList.add('droppable');
+          puzzleBlocks[indexPuzzleBlocks].classList.add('droppable');
         } else {
           puzzleBlocks[indexPuzzleBlocks].textContent = value;
-          // puzzleBlocks[indexPuzzleBlocks].classList.remove('droppable');
+          puzzleBlocks[indexPuzzleBlocks].classList.remove('droppable');
         }
 
-        // if (this.clickableBlocks.items.includes(value)) {
-        //   puzzleBlocks[indexPuzzleBlocks].classList.add('draggable');
-        // } else {
-        //   puzzleBlocks[indexPuzzleBlocks].classList.remove('draggable');
-        // }
+        if (this.clickableBlocks.items.includes(value)) {
+          puzzleBlocks[indexPuzzleBlocks].classList.add('draggable');
+        } else {
+          puzzleBlocks[indexPuzzleBlocks].classList.remove('draggable');
+        }
 
         indexPuzzleBlocks += 1;
       }
@@ -610,4 +612,5 @@ class GemPuzzle {
 }
 
 const rootNode = document.querySelector('#App');
-new GemPuzzle(rootNode);
+// eslint-disable-next-line no-undef
+new GemPuzzle(rootNode, DragManager);
